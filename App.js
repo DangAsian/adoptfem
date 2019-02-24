@@ -1,69 +1,27 @@
-import React from "react";
+import React from 'react';
 import { render } from "react-dom";
-import pf from "petfinder-client";
-import Pet from "./Pet";
+import { Router, Link } from "@reach/router";
+import Results from './Results';
+import Details from './Details';
 
-const petfinder = pf({
-  key: process.env.API_KEY,
-  secret: process.env.API_SECRET
-});
+class App extends React.Component{
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+  render(){
 
-    this.state = {
-      pets: []
-    };
-  }
-  componentDidMount() {
-    // const promise = petfinder.breed.list({ animal: "dog"})
-    // promise.then(console.log, console.error);
-    console.log(petfinder.pet);
-    petfinder.pet
-      .find({ output: "full", location: "Seattle, WA" })
-      .then(data => {
-        let pets;
 
-        if (data.petfinder.pets && data.petfinder.pets.pet) {
-          if (Array.isArray(data.petfinder.pets.pet)) {
-            pets = data.petfinder.pets.pet;
-          } else {
-            pets = [data.petfinder.pets.pet];
-          }
-        } else {
-          pets = [];
-        }
-
-        this.setState({
-          pets: pets
-        });
-      });
-  }
-
-  render() {
-    return (
+    return(
       <div>
-        <h1> Adopt Me! </h1>
-        {/* <pre>
-          <code>{JSON.stringify(this.state, null, 4)}</code>
-        </pre> */}
-        <div>
-          {console.log(this.state.pets)}
-          {this.state.pets.map(pet => {
-            let breed;
-            if (Array.isArray(pet.breeds.breed)) {
-              breed = pet.breeds.breed.join(", ");
-            } else {
-              breed = pet.breeds.breed;
-            }
-            return <Pet key={pet.id} animal={pet.animal} name={pet.name} breed={breed} media = {pet.media} location={`${pet.contact.city}, ${pet.contact.string}}`}/>;
-          })}
-        </div>
+        <header>
+          <Link to="/">Adopt Me! </Link>
+
+        </header>
+        <Router>
+          <Results path="/"/>
+          <Details path="/details/:id"/>
+        </Router>
       </div>
-    );
+    )
   }
 }
-
 //Render your component to the DOM
 render(React.createElement(App), document.getElementById("root"));
