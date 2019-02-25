@@ -24,6 +24,7 @@ class Details extends React.Component{
       id: this.props.id,
     }).then(data => {
       const pet = data.petfinder.pet;
+      console.log(petfinder.pet);
       let breed;
 
       if (Array.isArray(pet.breeds.breed)) {

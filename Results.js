@@ -19,10 +19,12 @@ class Results extends React.Component {
   componentDidMount() {
     // const promise = petfinder.breed.list({ animal: "dog"})
     // promise.then(console.log, console.error);
+    console.log("look here");
     console.log(petfinder.pet);
     petfinder.pet
       .find({ output: "full", location: "Seattle, WA" })
       .then(data => {
+        console.log(data);
         let pets;
 
         if (data.petfinder.pets && data.petfinder.pets.pet) {
@@ -35,6 +37,7 @@ class Results extends React.Component {
           pets = [];
         }
 
+        console.log(pets);
         this.setState({
           pets: pets
         });
